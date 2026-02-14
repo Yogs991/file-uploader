@@ -16,21 +16,24 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, "public")));
 
-const passportStrategy = new LocalStrategy(async(email, password, done)=>{
+const passportStrategy = new LocalStrategy({usernameField: 'email'},async(email, password, done)=>{
     try{
+        console.log('Login attempt with email:', email);
         const user =  await prisma.user.findUnique(
             {where: {email}},
         )
-
+        console.log('User found:', user ? 'Yes' : 'No');
         if(!user){
+            console.log('User not found');
             return done(null, false, {message: "Incorrect email"});
         }
 
         const match = await bcrypt.compare(password, user.password);
         if(!match){
+            console.log('Password incorrect');
             return done(null, false, {message: "Incorrect password"});
         }
-
+         console.log('Login successful');
         return done(null,user);
     }catch(err){
         console.error(err);        

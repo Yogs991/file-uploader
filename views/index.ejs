@@ -13,5 +13,10 @@
         <p>Upload as many files as you like.</p>
         <p>or <a href="">Upload a folder</a></p>
     </div>
+    <% if(user){ %>
+        <form action="/upload" enctype="multipart/form-data" method="POST">
+            <input type="file" name="file">
+        </form>
+    <% } %>
 </body>
 </html>
