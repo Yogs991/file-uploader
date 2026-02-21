@@ -11,12 +11,24 @@
     <div>
         <h1>Super simple file uploader</h1>
         <p>Upload as many files as you like.</p>
-        <p>or <a href="">Upload a folder</a></p>
     </div>
     <% if(user){ %>
-        <form action="/upload" enctype="multipart/form-data" method="POST">
-            <input type="file" name="file">
-        </form>
+        <p>or <a href="/create-folder">Upload a folder</a></p>
+        <div class="upload-file">
+            <form action="/upload" enctype="multipart/form-data" method="POST">
+                <div>
+                    <label for="folder">Upload to folder:</label>
+                    <select name="folderId" id="folder" required>
+                        <option value="none">None</option>
+                        <% folders.forEach((folder)=>{ %>
+                            <option value="<%= folder.id %>"><%= folder.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <input type="file" name="file">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     <% } %>
 </body>
 </html>
