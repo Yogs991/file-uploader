@@ -1,0 +1,23 @@
+<head>
+    <title>Folder Page</title>
+    <link rel="stylesheet" href="/styles.css">    
+</head>
+<body>
+    <%- include('./partials/navbar.ejs') %>
+    <h1><%= folder.name %></h1>
+    <% if(folder.files.length === 0){ %>
+        <p>No files in this folder yet</p>
+    <% } else{%>
+        <div>
+            <% folder.files.forEach((file)=>{ %>
+                <div>
+                    <h3><%= file.title %></h3>
+                    <p><%= file.size %></p>
+                    <p><%= file.createdAt.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) %></p>
+                    <a href="/download/<%= file.id %>">Download</a>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
+    <a href="/">Return to main page</a>
+</body>

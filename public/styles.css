@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+body{
+    background: #310A31;
+    color: #F4ECD6;
+    padding: 5px;
+}
+
+.main{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.upload-file{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px;
+    margin: 5px;
+}
+
+/* navbar.ejs */
+nav{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+

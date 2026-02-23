@@ -10,7 +10,11 @@ router.get("/log-in", controller.getLoginPage);
 
 router.get("/sign-up", controller.getSignUpPage);
 
-router.get("/create-folder",controller.getCreateFolderForm)
+router.get("/create-folder",controller.getCreateFolderForm);
+
+router.get("/folder/:id",controller.getFolderPage);
+
+router.get("/download/:fileId", controller.downloadFile);
 
 router.post("/log-in",passport.authenticate("local",
     {

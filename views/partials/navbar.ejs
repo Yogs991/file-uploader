@@ -1,7 +1,15 @@
+<head>
+    <link rel="stylesheet" href="/styles.css">
+</head>
 <body>
     <nav>
         <% if(user){ %>
-            <p>Welcome <%= user.name %></p>
+            <p>Welcome 
+                <span>
+                    <img id="person-icon" src="/person.png" alt="user icon">
+                </span>
+                <%= user.name %>
+            </p>
             <form action="/log-out" method="POST">
                 <button type="submit">Logout</button>
             </form>

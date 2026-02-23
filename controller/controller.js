@@ -138,7 +138,59 @@ async function uploadFile(req,res){
             }
         });
 
-        res.redirect("/");
+        res.redirect(`/folder/${folder.id}`);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function getFolderPage(req,res){
+    try {
+        const folder = await prisma.folder.findFirst({
+        where: {
+            id: parseInt(req.params.id),
+            ownerId: req.user.id,
+        },
+        include:{
+            files: true,
+        }
+    });
+
+    if(!folder){
+        return res.status(404).send("Folder not found");
+    }
+    res.render("folder",{user: req.user, folder: folder});
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function downloadFile(req,res){
+    try {
+        const file = await prisma.file.findFirst({
+            where:{
+                id: parseInt(req.params.fileId),
+                uploaderId: req.user.id
+            }
+        });
+
+        if(!file){
+            return res.status(404).send("File not found");
+        }
+
+        const urlParts = file.link.split("/uploads/");
+        const filePath = urlParts[1];
+
+        const {data,error} = await supabase.storage.from("uploads").download(filePath);
+
+        if(error){
+            throw error;
+        }
+
+        const buffer = Buffer.from(await data.arrayBuffer());
+        res.setHeader("Content-Disposition", `attachment; filename=${file.title}`);
+        res.setHeader("Content-Type", data.type);
+        res.send(buffer);
     } catch (error) {
         console.log(error);
     }
@@ -154,5 +206,7 @@ module.exports = {
     getUserFromDb,
     getCreateFolderForm,
     createFolder,
-    uploadFile
+    uploadFile,
+    getFolderPage,
+    downloadFile
 }
