@@ -3,6 +3,7 @@ const {Router} = require("express");
 const router = express.Router();
 const controller = require("../controller/controller");
 const passport = require("passport");
+const validation = require("../validator");
 
 router.get("/", controller.getMainPage);
 
@@ -16,14 +17,14 @@ router.get("/folder/:id",controller.getFolderPage);
 
 router.get("/download/:fileId", controller.downloadFile);
 
-router.post("/log-in",passport.authenticate("local",
+router.post("/log-in", validation.validateLogin, passport.authenticate("local",
     {
         successRedirect: "/",
         failureRedirect: "/log-in"
     }
 ));
 
-router.post("/sign-up", controller.saveUser);
+router.post("/sign-up", validation.validateSignUp, controller.saveUser);
 
 router.post("/log-out", (req, res, next)=>{
     req.logout((err)=>{
